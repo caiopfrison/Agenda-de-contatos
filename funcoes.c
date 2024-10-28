@@ -8,16 +8,20 @@ void adicionarContato(Contato *contatos, int *contador) {
 }
 
 void excluirContato(Contato *contatos, int *contador, char *nome) {
-    for (int i = 0; i < *contador; i++) {
+    int i, j;
+    for (i = 0; i < *contador; i++) {
         if (strcmp(contatos[i].nome, nome) == 0) {
-            
-            for (int j = i; j < *contador - 1; j++) {
+            for (j = i; j < *contador - 1; j++) {
                 contatos[j] = contatos[j + 1];
             }
             (*contador)--;
-            break;
+            salvarContatosBinario(contatos, *contador);  
+            salvarContatosTexto(contatos, *contador);   
+            printf("Contato excluído!\n");
+            return;
         }
     }
+    printf("Contato não encontrado!\n");
 }
 
 void listarContatos(Contato *contatos, int contador) {
