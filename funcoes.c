@@ -3,7 +3,16 @@
 
 void adicionarContato(Contato *contatos, int *contador) {
     if (*contador < MAX_CONTATOS) {
-        
+        printf("Digite o nome: ");
+        scanf(" %[^\n]s", contatos[*contador].nome);
+        printf("Digite o telefone: ");
+        scanf(" %[^\n]s", contatos[*contador].telefone);
+        (*contador)++;
+        printf("Contato adicionado com sucesso!\n");
+        salvarContatosBinario(contatos, *contador);  
+        salvarContatosTexto(contatos, *contador);    
+    } else {
+        printf("Desculpe, mas você não possui espaço na agenda!\n");
     }
 }
 
