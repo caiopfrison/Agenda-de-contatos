@@ -26,22 +26,53 @@ void excluirContato(Contato *contatos, int *contador, char *nome) {
 
 void listarContatos(Contato *contatos, int contador) {
     for (int i = 0; i < contador; i++) {
-        
+        printf("Nome: %s\n", contatos[i].nome);
+        printf("Telefone: %s\n\n", contatos[i].telefone);
     }
 }
 
 void salvarContatosBinario(Contato *contatos, int contador) {
-    
+    FILE *arquivo = fopen("contatos.bin", "wb");
+    if (arquivo == NULL) {
+        perror("Erro ao abrir o arquivo");
+        return;
+    }
+    fwrite(contatos, sizeof(Contato), contador, arquivo);
+    fclose(arquivo);
 }
 
 void carregarContatosBinario(Contato *contatos, int *contador) {
-    
+    FILE *arquivo = fopen("contatos.bin", "rb");
+    if (arquivo == NULL) {
+        perror("Erro ao abrir o arquivo");
+        return;
+    }
+    *contador = fread(contatos, sizeof(Contato), MAX_CONTATOS, arquivo);
+    fclose(arquivo);
 }
 
 void salvarContatosTexto(Contato *contatos, int contador) {
-    
+    FILE *arquivo = fopen("contatos.txt", "w");
+    if (arquivo == NULL) {
+        perror("Erro ao abrir o arquivo");
+        return;
+    }
+    for (int i = 0; i < contador; i++) {
+        fprintf(arquivo, "%s\n%s\n", contatos[i].nome, contatos[i].telefone);
+    }
+    fclose(arquivo);
 }
 
 void carregarContatosTexto(Contato *contatos, int *contador) {
-    
+    FILE *arquivo = fopen("contatos.txt", "r");
+    if (arquivo == NULL) {
+        perror("Erro ao abrir o arquivo");
+        return;
+    }
+    *contador = 0;
+    while (fscanf(arquivo, " %[^\n]s", contatos[*contador].nome) == 1) {
+        fscanf(arquivo, " %[^\n]s", contatos[*contador].telefone);
+        (*contador)++;
+    }
+    fclose(arquivo);
 }
